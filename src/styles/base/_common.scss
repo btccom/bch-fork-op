@@ -17,8 +17,12 @@ h3{
   max-width:1200px;
   margin:0 auto;
   padding:0 20px;
+  
+  @media only screen and (max-width: $break-middle) {
+    padding:0 4px;
+  }
   @media only screen and (max-width: $break-small) {
-    padding:0 8px;
+    padding:0 4px;
   }
 }
 
@@ -54,6 +58,10 @@ a.link a:visited {
   color:#F5A623 !important;
 }
 
+.bsv-line{
+  border-bottom: 1px dashed #F5A623 !important;
+}
+
 
 .relative{
   position: relative;
@@ -73,6 +81,30 @@ i.cell-icon {
     position: absolute;
     left:0px;
     top: -1px;
+    @media only screen and (max-width: $break-middle) {
+      display: none;
+    }
+    @media only screen and (max-width: $break-small) {
+      display: none;
+    }
+  }
+  &.forked-icon {
+    vertical-align: top;
+    margin-right: 5px;
+    position: absolute;
+    left:-20px;
+    top: -1px;
+    background: url(fork.png) no-repeat center center;
+    transform: rotate(180deg);
+    background-size: 18px 18px;
+    @media only screen and (max-width: $break-middle) {
+      display: none;
+    }
+    @media only screen and (max-width: $break-small) {
+      display: none;
+    }
+   
+
   }
 }
 
@@ -81,12 +113,21 @@ i.cell-icon {
   position: relative;
   white-space: nowrap;
   padding-left: 25px;
-
+ 
   
 }
 table > thead > tr > th.with-icon-left-header {
-  padding-left: 45px;
+  padding-left: 45px !important;
   @media only screen and (max-width: $break-middle) {
-    padding-left: 30px;
+    padding-left: 25px !important;
   }
+  @media only screen and (max-width: $break-small) {
+    padding-left: 25px !important;
+  }
+  // &:first-child{
+  //   padding-left: 25px !important;
+  // }
+  // @media only screen and (max-width: $break-middle) {
+  //   padding-left: 30px !important;
+  // }
 }

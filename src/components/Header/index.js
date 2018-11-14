@@ -48,24 +48,25 @@ class Header extends Component {
   };
 
   getUpgradeProgress = (forkInfo, isForked) => {
-    if (isForked) {
-      return '100%';
-    }
-    //let fork_time = forkInfo.fork_time;
-    let fork_time = 1553200000;
-    let current = Math.round(new Date().getTime() / 1000);
-    console.log(current);
-    if (!fork_time) {
-      return 0;
-    } else {
-      let percent = current / fork_time;
-      if (percent > 0.9999 && current !== fork_time) {
-        return 99.99 + '%';
-      } else if (current === fork_time) {
-        return '100%';
-      }
-      return ((current / fork_time) * 100).toFixed(2) + '%';
-    }
+    return forkInfo.fork_percent;
+    // if (isForked) {
+    //   return '100%';
+    // }
+    // //let fork_time = forkInfo.fork_time;
+    // let fork_time = 1553200000;
+    // let current = Math.round(new Date().getTime() / 1000);
+    // console.log(current);
+    // if (!fork_time) {
+    //   return 0;
+    // } else {
+    //   let percent = current / fork_time;
+    //   if (percent > 0.9999 && current !== fork_time) {
+    //     return 99.99 + '%';
+    //   } else if (current === fork_time) {
+    //     return '100%';
+    //   }
+    //   return ((current / fork_time) * 100).toFixed(2) + '%';
+    // }
   };
 
   render() {
@@ -104,18 +105,24 @@ class Header extends Component {
                   </span>
                 </p>
               </div>
+              <p style={{ textAlign: 'center', marginTop: 30, fontSize: 12 }}>
+                * <Ts transKey="pages.countDownTip" />
+              </p>
             </div>
           ) : (
             <div className="count-down-container">
-              <p className="fork-text-tip">Bitcoin SV</p>
-              <p className="fork-text-tip" style={{ marginTop: 15 }}>
+              <p className="fork-text-tip" style={{ marginTop: 80 }}>
                 <Ts
                   transKey="pages.upgradedTipAfter"
                   values={{
-                    block: forkInfo.fork_height,
-                    utcTime: timestamp2UTC(forkInfo.fork_time * 1000)
+                    block: forkInfo.fork_height
                   }}
                 />
+                <p style={{ marginTop: 10, fontSize: 20 }}>
+                  {forkInfo.fork_time
+                    ? timestamp2UTC(forkInfo.fork_time * 1000)
+                    : '--'}
+                </p>
               </p>
             </div>
           )}

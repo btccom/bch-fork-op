@@ -21,7 +21,7 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       '/api/': {
-        target: 'https://devchain.btc.com/public/api/bch-bsv',
+        target: 'https://bch.btc.com/public/api/bch-bsv',
         pathRewrite: { '^/api': '' },
         secure: false,
         logLevel: 'debug',

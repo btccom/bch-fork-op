@@ -5,7 +5,7 @@ import { Provider } from 'mobx-react';
 import { AppContainer } from 'react-hot-loader';
 import { RouterStore, syncHistoryWithStore } from 'mobx-react-router';
 import createBrowserHistory from 'history/createBrowserHistory';
-import babelPolyfill from 'babel-polyfill';
+//import babelPolyfill from 'babel-polyfill';
 import stores from './stores'; //必须引入
 import { isProduction } from './utils/constants';
 import IntlProviderWrap from './components/IntlProviderWrap';

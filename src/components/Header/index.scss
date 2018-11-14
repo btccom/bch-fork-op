@@ -20,6 +20,13 @@
       height: 21px;
       background: url(logo_BTC.png) center center no-repeat;
       background-size: 126px 21px;
+      @media only screen and (max-width: $break-small) {
+        margin-left: 10px;
+      }
+      @media only screen and (max-width: $break-middle) and (min-width: $break-small) {
+        margin-left: 10px;
+      }
+      
     }
     .count-down-container {
       margin-top: 46px;

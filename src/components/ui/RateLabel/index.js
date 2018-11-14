@@ -5,11 +5,14 @@ const RateLabel = ({ changeRate, style }) => {
     return null;
   }
   let cls = changeRate === 0 ? '' : changeRate > 0 ? 'increase' : 'decline';
-  let rate = changeRate === 0 ? 0 : Math.abs(changeRate) + '%';
+  let rate = changeRate === 0 ? 0 : Math.abs(changeRate).toFixed(2) + '%';
   return (
     <span className="rate-label">
       <i className={`${cls}-icon`} />
-      <span className={`${cls}-text`}>{rate}</span>
+      <span className={`${cls}-text`} style={{ marginLeft: 4 }}>
+        {cls === 'increase' ? '+' : '-'}
+        {rate}
+      </span>
     </span>
   );
 };

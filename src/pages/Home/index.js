@@ -72,8 +72,8 @@ export default class Home extends Component {
         render: data => {
           return (
             <a
-              className="link em-text"
-              href={`https://bch.btc.com/${data.height}`}
+              className="link"
+              href={`https://bch.btc.com/${data.block_hash}`}
               target="_blank"
             >
               {data.height}
@@ -102,7 +102,7 @@ export default class Home extends Component {
       {
         title: <Ts transKey="pages.Time" />,
         render: data => {
-          return <span>{second2Relative(56, lang)}</span>;
+          return <span>{second2Relative(data.time_in_sec, lang)}</span>;
         }
       }
     ];
@@ -114,13 +114,18 @@ export default class Home extends Component {
         render: data => {
           return (
             <a
-              className={`link em-text ${
-                forkInfo.fork_height == data.height ? 'bsv-color' : ''
+              className={`link relative ${
+                isForked && forkInfo.fork_height <= data.height
+                  ? 'bsv-color'
+                  : ''
               }`}
-              href={`https://bsv.btc.com/${data.height}`}
+              href={`https://bsv.btc.com/${data.block_hash}`}
               target="_blank"
             >
               {data.height}
+              {isForked && forkInfo.fork_height == data.height && (
+                <i className="cell-icon forked-icon" />
+              )}
             </a>
           );
         }
@@ -131,7 +136,13 @@ export default class Home extends Component {
         className: 'with-icon-left-header',
         render: data => {
           return (
-            <span className="with-icon-left">
+            <span
+              className={`with-icon-left ${
+                isForked && forkInfo.fork_height <= data.height
+                  ? 'bsv-color'
+                  : ''
+              }`}
+            >
               {data.miner}
               {data.icon_url && (
                 <i
@@ -146,7 +157,17 @@ export default class Home extends Component {
       {
         title: <Ts transKey="pages.Time" />,
         render: data => {
-          return <span>{second2Relative(56, lang)}</span>;
+          return (
+            <span
+              className={`${
+                isForked && forkInfo.fork_height <= data.height
+                  ? 'bsv-color'
+                  : ''
+              }`}
+            >
+              {second2Relative(data.time_in_sec, lang)}
+            </span>
+          );
         }
       }
     ];
@@ -159,7 +180,7 @@ export default class Home extends Component {
         render: data => {
           return (
             <a
-              className="link em-text cell-text-ellipsis"
+              className="link cell-text-ellipsis"
               href={`https://bch.btc.com/${data.txHash}`}
               target="_blank"
               style={{ width: 170, textAlign: 'left' }}
@@ -190,7 +211,7 @@ export default class Home extends Component {
         render: data => {
           return (
             <a
-              className="link em-text cell-text-ellipsis bsv-color"
+              className="link cell-text-ellipsis bsv-color"
               href={`https://bsv.btc.com/${data.txHash}`}
               target="_blank"
               style={{ width: 170, textAlign: 'left' }}
@@ -248,8 +269,8 @@ export default class Home extends Component {
                             currency={getCurrency(lang)}
                             values={
                               lang === 'zh-CN'
-                                ? statsInfo.bch_price
-                                : statsInfo.bch_price
+                                ? statsInfo.bch_price_rmb
+                                : statsInfo.bch_price_usd
                             }
                             decimal={2}
                           />
@@ -285,8 +306,8 @@ export default class Home extends Component {
                                   currency={getCurrency(lang)}
                                   values={
                                     lang === 'zh-CN'
-                                      ? statsInfo.bsv_price
-                                      : statsInfo.bsv_price
+                                      ? statsInfo.bsv_price_rmb
+                                      : statsInfo.bsv_price_usd
                                   }
                                   decimal={2}
                                 />
@@ -308,6 +329,8 @@ export default class Home extends Component {
                     <div className="card-body">
                       <Table
                         columns={bsvColumns}
+                        isForked={isForked}
+                        forkedBlock={forkInfo.fork_height}
                         dataSource={bsvBlockList}
                         style={{ width: '100%' }}
                       />
@@ -321,7 +344,7 @@ export default class Home extends Component {
                     <div className="card op-code-card">
                       <div className="card-body">
                         <h2>
-                          <Ts transKey="pages.specialOPCode" />
+                          BCH <Ts transKey="pages.specialOPCode" />
                         </h2>
                         <Table
                           columns={bchOpCodeColumns}
@@ -336,7 +359,7 @@ export default class Home extends Component {
                     <div className="card op-code-card">
                       <div className="card-body">
                         <h2>
-                          <Ts transKey="pages.specialOPCode" />
+                          BSV <Ts transKey="pages.specialOPCode" />
                         </h2>
                         <Table
                           columns={bsvOpCodeColumns}
@@ -358,6 +381,7 @@ export default class Home extends Component {
             subTitle={<Ts transKey="pages.coinbaseFees" />}
             legendNames={['BCH', 'BSV']}
             isFixed={true}
+            isForked={isForked}
             yAxisName={
               lang === 'zh-CN' ? '区块奖励（RMB）' : 'Block Reward（USD）'
             }
@@ -375,6 +399,7 @@ export default class Home extends Component {
             title={<Ts transKey="pages.transactionVsTitle" />}
             subTitle=""
             legendNames={['BCH', 'BSV']}
+            isForked={isForked}
             abbreviateFunc={
               lang === 'zh-CN' ? abbreviateNumber_zh : abbreviateNumber_en
             }

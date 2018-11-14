@@ -3,7 +3,7 @@ import { withRouter, Route, Switch } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import DevTools from 'mobx-react-devtools';
 import routes from './pages';
-import ErrorBoundary from './components/ErrorBoundary';
+//import ErrorBoundary from './components/ErrorBoundary';
 import Header from './components/Header';
 
 @inject('store', 'routing')
@@ -23,19 +23,25 @@ export default class App extends Component {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  componentDidMount() {
+    const { lang } = this.store;
+    document.title =
+      lang === 'zh-CN'
+        ? '比特币区块浏览器 - BTC.com'
+        : 'Bitcoin Block Explorer - BTC.com';
+  }
+
   render() {
     return (
-      <ErrorBoundary>
-        <div className="relative">
-          <div>
-            <Switch>
-              {routes.map((route, index) => (
-                <Route key={`${route.name}-${index}`} {...route} />
-              ))}
-            </Switch>
-          </div>
+      <div className="relative">
+        <div>
+          <Switch>
+            {routes.map((route, index) => (
+              <Route key={`${route.name}-${index}`} {...route} />
+            ))}
+          </Switch>
         </div>
-      </ErrorBoundary>
+      </div>
     );
   }
 }

@@ -405,7 +405,9 @@ export const timeDifference = (current, previous, lang) => {
   if (elapsed < msPerMinute) {
     return formatLocaleRelative(
       [{ value: Math.round(elapsed / 1000), unit: 'second' }],
-      lang
+      lang,
+      true,
+      true
     );
   } else if (elapsed < msPerHour) {
     return formatLocaleRelative(
@@ -413,7 +415,9 @@ export const timeDifference = (current, previous, lang) => {
         { value: Math.floor(elapsed / msPerMinute), unit: 'minute' },
         { value: Math.floor((elapsed % msPerMinute) / 1000), unit: 'second' }
       ],
-      lang
+      lang,
+      true,
+      true
     );
   } else if (elapsed < msPerDay) {
     return formatLocaleRelative(
@@ -424,7 +428,9 @@ export const timeDifference = (current, previous, lang) => {
           unit: 'minute'
         }
       ],
-      lang
+      lang,
+      true,
+      true
     );
   } else if (elapsed < msPerMonth) {
     return formatLocaleRelative(
@@ -435,22 +441,33 @@ export const timeDifference = (current, previous, lang) => {
           unit: 'hour'
         }
       ],
-      lang
+      lang,
+      true,
+      true
     );
   } else if (elapsed < msPerYear) {
     return formatLocaleRelative(
       [{ value: Math.round(elapsed / msPerMonth), unit: 'month' }],
-      lang
+      lang,
+      true,
+      true
     );
   } else {
     return formatLocaleRelative(
       [{ value: Math.round(elapsed / msPerYear), unit: 'year' }],
-      lang
+      lang,
+      true,
+      true
     );
   }
 };
 
-const formatLocaleRelative = (valueArrs, lang, isShowAgo = true) => {
+const formatLocaleRelative = (
+  valueArrs,
+  lang,
+  isShowAgo = true,
+  isLowerCase = false
+) => {
   const agoLocales = {
     'zh-CN': '前',
     'en-US': ' ago'
@@ -459,36 +476,36 @@ const formatLocaleRelative = (valueArrs, lang, isShowAgo = true) => {
     'zh-CN': {
       second: '秒',
       minute: '分',
-      hour: '小时',
+      hour: '时',
       day: '天',
       month: '月',
       year: '年'
     },
     'en-US': {
-      second: 'Sec',
-      minute: 'Min',
-      hour: 'Hour',
-      day: 'Day',
-      month: 'Month',
-      year: 'Year'
+      second: 'S',
+      minute: 'M',
+      hour: 'H',
+      day: 'D',
+      month: 'Mon',
+      year: 'Y'
     }
   };
   const unitLocalesplural = {
     'zh-CN': {
       second: '秒',
       minute: '分',
-      hour: '小时',
+      hour: '时',
       day: '天',
       month: '月',
       year: '年'
     },
     'en-US': {
-      second: 'Secs',
-      minute: 'Mins',
-      hour: 'Hours',
-      day: 'Days',
-      month: 'Months',
-      year: 'Years'
+      second: 'S',
+      minute: 'M',
+      hour: 'H',
+      day: 'D',
+      month: 'Mon',
+      year: 'Y'
     }
   };
 
@@ -496,7 +513,8 @@ const formatLocaleRelative = (valueArrs, lang, isShowAgo = true) => {
     return value > 1 ? unitLocalesplural : unitLocales;
   }
   let currentLocales = valueArrs.map(({ value, unit }) => {
-    return `${value} ${getUnitLocale(value)[lang][unit]}`;
+    let unitStr = getUnitLocale(value)[lang][unit];
+    return `${value} ${isLowerCase ? unitStr.toLowerCase() : unitStr}`;
   });
   if (isShowAgo) {
     return currentLocales.join(' ') + agoLocales[lang];
@@ -530,6 +548,9 @@ export const getCountdownTime = (endTimestamp, currentTimestamp, lang) => {
     currentTimestamp = currentTimestamp * 1000;
   }
   var distance = endTimestamp * 1000 - currentTimestamp;
+  if (distance <= 0) {
+    distance = 0;
+  }
 
   var hours = Math.floor(distance / (1000 * 60 * 60));
   var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -548,6 +569,7 @@ export const getCountdownTime = (endTimestamp, currentTimestamp, lang) => {
       }
     ],
     lang,
+    false,
     false
   );
 };

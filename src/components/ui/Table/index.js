@@ -16,10 +16,15 @@ const getTableHeader = columns => {
   });
 };
 
-const getTableRowCell = (columns, dataSource) => {
+const getTableRowCell = (columns, dataSource, isForked, forkedBlock) => {
   return dataSource.map((dataItem, index) => {
     return (
-      <tr key={index}>
+      <tr
+        key={index}
+        className={`${
+          isForked && forkedBlock == dataItem.height ? 'bsv-line' : ''
+        }`}
+      >
         {columns.map((item, i) => {
           return (
             <td
@@ -36,7 +41,14 @@ const getTableRowCell = (columns, dataSource) => {
   });
 };
 
-const Table = ({ columns, dataSource, showHeader = true, style }) => {
+const Table = ({
+  columns,
+  dataSource,
+  showHeader = true,
+  style,
+  isForked,
+  forkedBlock
+}) => {
   return (
     <div className="table-container" style={style}>
       <table className="bf-table">
@@ -45,7 +57,9 @@ const Table = ({ columns, dataSource, showHeader = true, style }) => {
             <tr>{getTableHeader(columns)}</tr>
           </thead>
         )}
-        <tbody>{getTableRowCell(columns, dataSource)}</tbody>
+        <tbody>
+          {getTableRowCell(columns, dataSource, isForked, forkedBlock)}
+        </tbody>
       </table>
     </div>
   );

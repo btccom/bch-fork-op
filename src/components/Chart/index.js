@@ -13,7 +13,8 @@ class Chart extends Component {
       seriesDataList,
       yAxisName,
       abbreviateFunc,
-      isFixed
+      isFixed,
+      isForked
     } = this.props;
 
     seriesDataList = seriesDataList.map(item => ({
@@ -91,10 +92,15 @@ class Chart extends Component {
           ${params[1].marker} ${params[1].seriesName}    : ${
             isFixed ? params[1].value.toFixed(2) : params[1].value
           }
-          <br>
+          `;
+          if (isForked) {
+            result =
+              result +
+              `<br>
           ${params[0].marker}   ${params[0].seriesName} : ${
-            isFixed ? params[0].value.toFixed(2) : params[0].value
-          }`;
+                isFixed ? params[0].value.toFixed(2) : params[0].value
+              }`;
+          }
           return result;
         }
       },

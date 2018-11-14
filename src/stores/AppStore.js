@@ -18,8 +18,8 @@ class AppStore {
     let defaultLang =
       userSettingLang ||
       (browserLang.substr(0, 2) === 'en' ? 'en-US' : 'zh-CN');
-    //return defaultLang;
-    return 'en-US';
+    return defaultLang;
+    //return 'en-US';
   }
 
   @action

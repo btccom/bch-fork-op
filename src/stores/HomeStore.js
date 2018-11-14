@@ -71,6 +71,9 @@ class HomeStore {
     const res = await ajax.get(`/fork-time`);
     if (res && res.data) {
       runInAction(() => {
+        //res.data.fork_height = 556638;
+        // res.data.fork_time = 1542218912;
+        // res.data.fork_miner = 'XXY';
         this.forkInfo = res.data;
       });
     }
@@ -81,12 +84,13 @@ class HomeStore {
     if (this.forkInfo.fork_time) {
       if (
         getCurrentTimestamp() >= this.forkInfo.fork_time * 1000 &&
-        this.forkInfo.fork_miner
+        this.forkInfo.fork_height
       ) {
         return true;
       }
     }
     return false;
+    //return true;
   }
 
   @action
