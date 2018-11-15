@@ -10,7 +10,7 @@
   &.block-card{
     margin-top: -40px;
    
-    @media only screen and (max-width: $break-middle) {
+    @media only screen and (max-width: $break-horizontal) {
       margin-top:20px;
       padding: 24px 15px;
     }

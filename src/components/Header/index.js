@@ -89,7 +89,11 @@ class Header extends Component {
                   this.state.currentSecond,
                   lang
                 ).map(item => {
-                  return <span style={{ marginRight: 10 }}>{item}</span>;
+                  return (
+                    <span style={{ marginRight: 10 }} key={item}>
+                      {item}
+                    </span>
+                  );
                 })}
               </div>
 
@@ -111,19 +115,19 @@ class Header extends Component {
             </div>
           ) : (
             <div className="count-down-container">
-              <p className="fork-text-tip" style={{ marginTop: 80 }}>
+              <div className="fork-text-tip" style={{ marginTop: 80 }}>
                 <Ts
                   transKey="pages.upgradedTipAfter"
                   values={{
                     block: forkInfo.fork_height
                   }}
                 />
-                <p style={{ marginTop: 10, fontSize: 20 }}>
+                <p className="fork-utc-time">
                   {forkInfo.fork_time
                     ? timestamp2UTC(forkInfo.fork_time * 1000)
                     : '--'}
                 </p>
-              </p>
+              </div>
             </div>
           )}
           <div className="intl-select">

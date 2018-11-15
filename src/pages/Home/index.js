@@ -257,7 +257,7 @@ export default class Home extends Component {
           <div className="view-width">
             <Grid>
               <Row>
-                <Col xs={12} sm={6} md={6}>
+                <Col xs={12} sm={12} md={6}>
                   <div className="card block-card bch-block-card">
                     <div className="card-header">
                       <p>
@@ -291,7 +291,7 @@ export default class Home extends Component {
                     </div>
                   </div>
                 </Col>
-                <Col xs={12} sm={6} md={6}>
+                <Col xs={12} sm={12} md={6}>
                   <div className="card block-card">
                     <div className="card-header">
                       <p>
@@ -300,7 +300,7 @@ export default class Home extends Component {
                         {isForked ? (
                           <span>
                             <span className="coin-value">
-                              {statsInfo.bsv_price ? (
+                              {statsInfo.bsv_price_usd ? (
                                 <Ts
                                   type="currency"
                                   currency={getCurrency(lang)}
@@ -316,9 +316,13 @@ export default class Home extends Component {
                               )}
                             </span>
                             <span className="coin-rate">
-                              <RateLabel
-                                changeRate={statsInfo.bsv_price_change_24h}
-                              />
+                              {statsInfo.bsv_price_change_24h ? (
+                                <RateLabel
+                                  changeRate={statsInfo.bsv_price_change_24h}
+                                />
+                              ) : (
+                                '--'
+                              )}
                             </span>
                           </span>
                         ) : (
@@ -340,7 +344,7 @@ export default class Home extends Component {
               </Row>
               {isForked && (
                 <Row>
-                  <Col xs={12} sm={6} md={6}>
+                  <Col xs={12} sm={12} md={6}>
                     <div className="card op-code-card">
                       <div className="card-body">
                         <h2>
@@ -355,7 +359,7 @@ export default class Home extends Component {
                       </div>
                     </div>
                   </Col>
-                  <Col xs={12} sm={6} md={6}>
+                  <Col xs={12} sm={12} md={6}>
                     <div className="card op-code-card">
                       <div className="card-body">
                         <h2>
