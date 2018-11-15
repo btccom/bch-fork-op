@@ -37,9 +37,9 @@ class HomeStore {
   blockRewardChartData_BSV_usd;
 
   @observable
-  bchSecialCodeList;
+  bchSpecialCodeList;
   @observable
-  bsvSecialCodeList;
+  bsvSpecialCodeList;
 
   constructor() {
     this.loading = false;
@@ -55,30 +55,8 @@ class HomeStore {
     this.blockRewardChartData_BCH_usd = [];
     this.blockRewardChartData_BSV_rmb = [];
     this.blockRewardChartData_BSV_usd = [];
-    this.bchSecialCodeList = [
-      {
-        tx_hash:
-          '0xfd4389434334340xfd4389434334340xfd4389434334340xfd438943433434',
-        opcode_count: 3
-      },
-      {
-        tx_hash:
-          '0xfd4389434334340xfd4389434334340xfd4389434334340xfd438943433434',
-        opcode_count: 5
-      }
-    ];
-    this.bsvSecialCodeList = [
-      {
-        tx_hash:
-          '0xfd4389434334340xfd4389434334340xfd4389434334340xfd438943433434',
-        opcode_count: 3
-      },
-      {
-        tx_hash:
-          '0xfd4389434334340xfd4389434334340xfd4389434334340xfd438943433434',
-        opcode_count: 5
-      }
-    ];
+    this.bchSpecialCodeList = [];
+    this.bsvSpecialCodeList = [];
   }
 
   @action
@@ -168,7 +146,7 @@ class HomeStore {
     const res = await ajax.get(`/bch/code/list`);
     if (res && res.data) {
       runInAction(() => {
-        this.bchSecialCodeList = res.data.list;
+        this.bchSpecialCodeList = res.data.list;
       });
     }
   };
