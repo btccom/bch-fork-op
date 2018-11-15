@@ -27,9 +27,19 @@ class HomeStore {
   @observable
   blockRewardXAxisChartData;
   @observable
-  blockRewardChartData_BCH;
+  blockRewardChartData_BCH_rmb;
   @observable
-  blockRewardChartData_BSV;
+  blockRewardChartData_BCH_usd;
+
+  @observable
+  blockRewardChartData_BSV_rmb;
+  @observable
+  blockRewardChartData_BSV_usd;
+
+  @observable
+  bchSecialCodeList;
+  @observable
+  bsvSecialCodeList;
 
   constructor() {
     this.loading = false;
@@ -41,8 +51,34 @@ class HomeStore {
     this.transactionChartData_BCH = [];
     this.transactionChartData_BSV = [];
     this.blockRewardXAxisChartData = [];
-    this.blockRewardChartData_BCH = [];
-    this.blockRewardChartData_BSV = [];
+    this.blockRewardChartData_BCH_rmb = [];
+    this.blockRewardChartData_BCH_usd = [];
+    this.blockRewardChartData_BSV_rmb = [];
+    this.blockRewardChartData_BSV_usd = [];
+    this.bchSecialCodeList = [
+      {
+        tx_hash:
+          '0xfd4389434334340xfd4389434334340xfd4389434334340xfd438943433434',
+        opcode_count: 3
+      },
+      {
+        tx_hash:
+          '0xfd4389434334340xfd4389434334340xfd4389434334340xfd438943433434',
+        opcode_count: 5
+      }
+    ];
+    this.bsvSecialCodeList = [
+      {
+        tx_hash:
+          '0xfd4389434334340xfd4389434334340xfd4389434334340xfd438943433434',
+        opcode_count: 3
+      },
+      {
+        tx_hash:
+          '0xfd4389434334340xfd4389434334340xfd4389434334340xfd438943433434',
+        opcode_count: 5
+      }
+    ];
   }
 
   @action
@@ -53,6 +89,8 @@ class HomeStore {
       this.getBCHBlockList();
       this.getBSVBlockList();
       this.getForkChartData();
+      // this.getBCHSpecialCodeList();
+      // this.getBSVSpecialCodeList();
     });
   };
 
@@ -63,6 +101,8 @@ class HomeStore {
       this.getStatsInfo();
       this.getBCHBlockList();
       this.getBSVBlockList();
+      // this.getBCHSpecialCodeList();
+      // this.getBSVSpecialCodeList();
     });
   };
 
@@ -71,7 +111,7 @@ class HomeStore {
     const res = await ajax.get(`/fork-time`);
     if (res && res.data) {
       runInAction(() => {
-        //res.data.fork_height = 556638;
+        // res.data.fork_height = 556638;
         // res.data.fork_time = 1542218912;
         // res.data.fork_miner = 'XXY';
         this.forkInfo = res.data;
@@ -124,6 +164,26 @@ class HomeStore {
   };
 
   @action
+  getBCHSpecialCodeList = async () => {
+    const res = await ajax.get(`/bch/code/list`);
+    if (res && res.data) {
+      runInAction(() => {
+        this.bchSecialCodeList = res.data.list;
+      });
+    }
+  };
+
+  @action
+  getBSVSpecialCodeList = async () => {
+    const res = await ajax.get(`/bsv/code/list`);
+    if (res && res.data) {
+      runInAction(() => {
+        this.bsvSpecialCodeList = res.data.list;
+      });
+    }
+  };
+
+  @action
   getForkChartData = async () => {
     const res = await ajax.get(`/fork-chart`);
     if (res && res.data) {
@@ -147,8 +207,10 @@ class HomeStore {
           this.blockRewardXAxisChartData_zh = blockRewardData.timestamp.map(
             item => dateLocaleFormat(item, 'zh-CN')
           );
-          this.blockRewardChartData_BCH = blockRewardData.bch;
-          this.blockRewardChartData_BSV = blockRewardData.bsv;
+          this.blockRewardChartData_BCH_rmb = blockRewardData.bch_rmb;
+          this.blockRewardChartData_BCH_usd = blockRewardData.bch_usd;
+          this.blockRewardChartData_BSV_rmb = blockRewardData.bsv_rmb;
+          this.blockRewardChartData_BSV_usd = blockRewardData.bsv_usd;
         }
       });
     }

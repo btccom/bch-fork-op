@@ -111,6 +111,15 @@
             }
           }
         }
+        @media only screen and (max-width: $break-horizontal) {
+          margin: 36px 20% 0;
+          p {
+            height: 10px;
+            span {
+              height: 10px;
+            }
+          }
+        }
         @media only screen and (max-width: $break-middle) {
           margin: 36px 50px 0;
           p {

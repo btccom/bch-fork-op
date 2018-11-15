@@ -61,8 +61,12 @@ export default class Home extends Component {
       transactionChartData_BSV,
       blockRewardXAxisChartData_zh,
       blockRewardXAxisChartData_en,
-      blockRewardChartData_BCH,
-      blockRewardChartData_BSV
+      blockRewardChartData_BCH_rmb,
+      blockRewardChartData_BCH_usd,
+      blockRewardChartData_BSV_rmb,
+      blockRewardChartData_BSV_usd,
+      bchSecialCodeList,
+      bsvSecialCodeList
     } = this.store;
 
     const bchColumns = [
@@ -181,11 +185,11 @@ export default class Home extends Component {
           return (
             <a
               className="link cell-text-ellipsis"
-              href={`https://bch.btc.com/${data.txHash}`}
+              href={`https://bch.btc.com/${data.tx_hash}`}
               target="_blank"
               style={{ width: 170, textAlign: 'left' }}
             >
-              Tx{` ${data.txHash}`}
+              Tx{` ${data.tx_hash}`}
             </a>
           );
         }
@@ -196,7 +200,7 @@ export default class Home extends Component {
           return (
             <Ts
               transKey="pages.bchOpCode"
-              values={{ count: data.opCode_count }}
+              values={{ count: data.opcode_count }}
             />
           );
         }
@@ -212,11 +216,11 @@ export default class Home extends Component {
           return (
             <a
               className="link cell-text-ellipsis bsv-color"
-              href={`https://bsv.btc.com/${data.txHash}`}
+              href={`https://bsv.btc.com/${data.tx_hash}`}
               target="_blank"
               style={{ width: 170, textAlign: 'left' }}
             >
-              Tx{` ${data.txHash}`}
+              Tx{` ${data.tx_hash}`}
             </a>
           );
         }
@@ -227,28 +231,28 @@ export default class Home extends Component {
           return (
             <Ts
               transKey="pages.bsvOpCode"
-              values={{ count: data.opCode_count }}
+              values={{ count: data.opcode_count }}
             />
           );
         }
       }
     ];
 
-    let bchDataSource = [
-      {
-        txHash:
-          '0xfd4389434334340xfd4389434334340xfd4389434334340xfd438943433434',
-        opCode_count: 3
-      },
-      {
-        txHash:
-          '0xfd4389434334340xfd4389434334340xfd4389434334340xfd438943433434',
-        opCode_count: 5
-      }
-    ];
-    let bsvDataSource = bchDataSource;
-    let bsvOpCodeDataSource = bchDataSource;
-    let bchOpCodeDataSource = bchDataSource;
+    // let bchDataSource = [
+    //   {
+    //     txHash:
+    //       '0xfd4389434334340xfd4389434334340xfd4389434334340xfd438943433434',
+    //     opCode_count: 3
+    //   },
+    //   {
+    //     txHash:
+    //       '0xfd4389434334340xfd4389434334340xfd4389434334340xfd438943433434',
+    //     opCode_count: 5
+    //   }
+    // ];
+    // let bsvDataSource = bchDataSource;
+    // let bsvOpCodeDataSource = bchDataSource;
+    // let bchOpCodeDataSource = bchDataSource;
 
     return (
       <div style={{ marginBottom: 100 }}>
@@ -352,7 +356,7 @@ export default class Home extends Component {
                         </h2>
                         <Table
                           columns={bchOpCodeColumns}
-                          dataSource={bchOpCodeDataSource}
+                          dataSource={bchSecialCodeList}
                           style={{ width: '100%' }}
                           showHeader={false}
                         />
@@ -367,7 +371,7 @@ export default class Home extends Component {
                         </h2>
                         <Table
                           columns={bsvOpCodeColumns}
-                          dataSource={bsvOpCodeDataSource}
+                          dataSource={bsvSecialCodeList}
                           style={{ width: '100%' }}
                           showHeader={false}
                         />
@@ -394,10 +398,17 @@ export default class Home extends Component {
                 ? blockRewardXAxisChartData_zh
                 : blockRewardXAxisChartData_en
             }
-            seriesDataList={[
-              { data: blockRewardChartData_BSV, name: 'BSV' },
-              { data: blockRewardChartData_BCH, name: 'BCH' }
-            ]}
+            seriesDataList={
+              lang === 'zh-CN'
+                ? [
+                    { data: blockRewardChartData_BSV_rmb, name: 'BSV' },
+                    { data: blockRewardChartData_BCH_rmb, name: 'BCH' }
+                  ]
+                : [
+                    { data: blockRewardChartData_BSV_usd, name: 'BSV' },
+                    { data: blockRewardChartData_BCH_usd, name: 'BCH' }
+                  ]
+            }
           />
           <Chart
             title={<Ts transKey="pages.transactionVsTitle" />}
